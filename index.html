@@ -1,50 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengumuman Kelulusan</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pengumuman Kelulusan SMKS YPT 2024/2025</title>
+  <style>
+    body { font-family: Calibri, sans-serif; background-color: #f2f2f2; padding: 2em; text-align: center; }
+    input[type="text"] { padding: 0.5em; font-size: 1em; width: 200px; }
+    button { padding: 0.5em 1em; font-size: 1em; cursor: pointer; }
+    .hasil { margin-top: 2em; padding: 1em; background: white; display: inline-block; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    .notfound { color: red; margin-top: 2em; }
+  </style>
 </head>
 <body>
-    <h1>Pengumuman Kelulusan SMKS YPT Banjarmasin</h1>
-    <h3>Tahun Ajaran 2024/2025</h3>
-    <form id="tokenForm">
-        <label for="token">Masukkan Token:</label><br>
-        <input type="text" id="token" name="token" required>
-        <button type="submit">Lihat Kelulusan</button>
-    </form>
-    <div id="result"></div>
+  <h1>Pengumuman Kelulusan</h1>
+  <h2>SMKS YPT Banjarmasin Tahun 2024/2025</h2>
+  <p>Masukkan TOKEN anda untuk melihat hasil kelulusan:</p>
+  <input type="text" id="tokenInput" placeholder="Masukkan TOKEN" />
+  <button onclick="cariData()">Cek</button>
 
-    <script>
-        document.getElementById('tokenForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const token = document.getElementById('token').value;
-            const response = await fetch(`/api/check-token?token=${token}`);
-            const result = await response.json();
+  <div id="hasil" class="hasil" style="display:none;"></div>
+  <div id="notfound" class="notfound"></div>
 
-            const resultDiv = document.getElementById('result');
-            if (result.success) {
-                resultDiv.innerHTML = `
-                    <h2>Data Kelulusan</h2>
-                    <p><strong>NISN:</strong> ${result.data.nisn}</p>
-                    <p><strong>Nama:</strong> ${result.data.nama}</p>
-                    <p><strong>Kelas:</strong> ${result.data.kelas}</p>
-                    <p><strong>Status:</strong> ${result.data.status}</p>
-                `;
-            } else {
-                resultDiv.innerHTML = `<p style="color: red;">${result.message}</p>`;
-            }
-        });
-    </script>
+  <script>
+    const dataKelulusan = {
+"465544": { nisn: "0074133444", nama: "ACHMAD FIRZHA PRATAMA", kelas: "XII TITL/MM", status: "LULUS" },
+"465661": { nisn: "0076091461", nama: "Ade Rahman", kelas: "XII TITL/MM", status: "LULUS" },
+"465771": { nisn: "0068705571", nama: "Ahmad Fitri", kelas: "XII TITL/MM", status: "LULUS" },
+"465828": { nisn: "0065450728", nama: "AHMAD JAZJULI MUSTOPA", kelas: "XII TITL/MM", status: "LULUS" },
+"485849": { nisn: "0043951549", nama: "Ammar Mustahar Thalib", kelas: "XII TITL/MM", status: "LULUS" },
+"465950": { nisn: "0075265150", nama: "DANIEL JULIAN TRISENA", kelas: "XII TITL/MM", status: "LULUS" },
+"466057": { nisn: "0064656157", nama: "Muhammad Fadil Al Farisi", kelas: "XII TITL/MM", status: "LULUS" },
+"466189": { nisn: "0065725689", nama: "Muhammad Fajar", kelas: "XII TITL/MM", status: "LULUS" },
+"477100": { nisn: "0055577200", nama: "M. Iqbal Tri Nugroho", kelas: "XII TITL/MM", status: "LULUS" },
+"485936": { nisn: "0064071236", nama: "M. Rizqi", kelas: "XII TITL/MM", status: "LULUS" },
+"466332": { nisn: "0071435232", nama: "Muhammad Nisfi Maulana", kelas: "XII TITL/MM", status: "LULUS" },
+"466425": { nisn: "0074355225", nama: "NIKO MAWLANA", kelas: "XII TITL/MM", status: "LULUS" },
+"476491": { nisn: "0073941091", nama: "Rahmad Dikha Pratama", kelas: "XII TITL/MM", status: "LULUS" },
+"466574": { nisn: "0068434174", nama: "SAID IKHLAS MAULANA", kelas: "XII TITL/MM", status: "LULUS" },
+"466645": { nisn: "0139922645", nama: "Desy Amelia", kelas: "XII TITL/MM", status: "LULUS" },
+"466835": { nisn: "0071403835", nama: "Emi Lia", kelas: "XII TITL/MM", status: "LULUS" },
+"466990": { nisn: "0075743890", nama: "Fadhul Rahim", kelas: "XII TITL/MM", status: "LULUS" },
+"467093": { nisn: "0062422693", nama: "Febri Yanor", kelas: "XII TITL/MM", status: "LULUS" },
+"476087": { nisn: "0050738687", nama: "JOSS LOIS", kelas: "XII TITL/MM", status: "LULUS" },
+"467115": { nisn: "0061393415", nama: "M. Khairi Nouval", kelas: "XII TITL/MM", status: "LULUS" },
+"467285": { nisn: "0077991085", nama: "Muhamad Diky Maulana", kelas: "XII TITL/MM", status: "LULUS" },
+"467392": { nisn: "0134322892", nama: "Muhammad Faqih", kelas: "XII TITL/MM", status: "LULUS" },
+"467475": { nisn: "0072756675", nama: "RISKY AMALIA SARI", kelas: "XII TITL/MM", status: "LULUS" },
+"467586": { nisn: "0067982786", nama: "SUBHAN", kelas: "XII TITL/MM", status: "LULUS" },
+"467751": { nisn: "0077958951", nama: "Alviana Ramadhani", kelas: "XII TKJ", status: "LULUS" },
+"467819": { nisn: "0078315219", nama: "AMELINA", kelas: "XII TKJ", status: "LULUS" },
+"467942": { nisn: "0073994200", nama: "Ananda Alfarijal Anwar", kelas: "XII TKJ", status: "LULUS" },
+"468039": { nisn: "0089271139", nama: "Bella Deviyanti", kelas: "XII TKJ", status: "LULUS" },
+"468151": { nisn: "0043998551", nama: "DEWI AYURAMAYANTI", kelas: "XII TKJ", status: "LULUS" },
+"468201": { nisn: "0065995101", nama: "Farid Sa'adan", kelas: "XII TKJ", status: "LULUS" },
+"468362": { nisn: "0071822162", nama: "HENNY SAFITRI", kelas: "XII TKJ", status: "LULUS" },
+"468484": { nisn: "3055182284", nama: "Ikhlasul Ariffin", kelas: "XII TKJ", status: "LULUS" },
+"468633": { nisn: "0074777433", nama: "Muhammad David Saputra", kelas: "XII TKJ", status: "LULUS" },
+"475048": { nisn: "0072916348", nama: "Muhammad Ihsan", kelas: "XII TKJ", status: "LULUS" },
+"469389": { nisn: "0063368289", nama: "Nadia", kelas: "XII TKJ", status: "LULUS" },
+"468890": { nisn: "3067733482", nama: "Norjakia", kelas: "XII TKJ", status: "LULUS" },
+"468919": { nisn: "0056091233", nama: "PAHRIYATI", kelas: "XII TKJ", status: "LULUS" },
+"469061": { nisn: "0069117316", nama: "PURNOMO FITRI SAPUTRO", kelas: "XII TKJ", status: "LULUS" },
+"469175": { nisn: "0064135275", nama: "Rizqa Aulia Ramadhina", kelas: "XII TKJ", status: "LULUS" },
+"469272": { nisn: "0065519272", nama: "Selvia", kelas: "XII TKJ", status: "LULUS" },
+"475173": { nisn: "0052050673", nama: "ULANDARI", kelas: "XII TKJ", status: "LULUS" },
+"469416": { nisn: "0067221016", nama: "Aditia Maulana Saputra", kelas: "XII TKRO 1", status: "LULUS" },
+"469555": { nisn: "0066233855", nama: "AFDAL SALAM", kelas: "XII TKRO 1", status: "LULUS" },
+"470087": { nisn: "0064956487", nama: "Ahmad Septiawan", kelas: "XII TKRO 1", status: "LULUS" },
+"485412": { nisn: "0067953012", nama: "ARYA HASRI HIDAYAT", kelas: "XII TKRO 1", status: "LULUS" },
+"470241": { nisn: "0073126941", nama: "Ega Prahasto", kelas: "XII TKRO 1", status: "LULUS" },
+"470397": { nisn: "0051225097", nama: "FAZAR SETIAWAN", kelas: "XII TKRO 1", status: "LULUS" },
+"470436": { nisn: "0076430136", nama: "Febriana Shela Aulya", kelas: "XII TKRO 1", status: "LULUS" },
+"470761": { nisn: "0069376861", nama: "Huda Prasetyo", kelas: "XII TKRO 1", status: "LULUS" },
+"471012": { nisn: "0077454612", nama: "M. Robby Syuhada", kelas: "XII TKRO 1", status: "LULUS" },
+"471103": { nisn: "0064940003", nama: "Methahul Ikhsan", kelas: "XII TKRO 1", status: "LULUS" },
+"471608": { nisn: "0063040917", nama: "MUHAMMAD NOOR MAJID", kelas: "XII TKRO 1", status: "LULUS" },
+"471709": { nisn: "0051167846", nama: "Muhammad Rayhan Rifandi", kelas: "XII TKRO 1", status: "LULUS" },
+"472089": { nisn: "0055221978", nama: "Muhammad Rizki Pratama", kelas: "XII TKRO 1", status: "LULUS" },
+"472344": { nisn: "0073203862", nama: "Nabil Syahputra Pratama", kelas: "XII TKRO 1", status: "LULUS" },
+"472444": { nisn: "0067499776", nama: "Noor Ikhsan", kelas: "XII TKRO 1", status: "LULUS" },
+"472525": { nisn: "0079895271", nama: "Nurul Hikmah", kelas: "XII TKRO 1", status: "LULUS" },
+"472705": { nisn: "0056143600", nama: "Yoke Pasia Utama Putra", kelas: "XII TKRO 1", status: "LULUS" },
+"472819": { nisn: "0075797654", nama: "YUSRIL ANWAR", kelas: "XII TKRO 1", status: "LULUS" },
+"469664": { nisn: "0073869072", nama: "Ahmad Aulia", kelas: "XII TKRO 2", status: "LULUS" },
+"469806": { nisn: "0072425527", nama: "AHMAD HUMMAIIDI", kelas: "XII TKRO 2", status: "LULUS" },
+"470812": { nisn: "0065877261", nama: "Julianda Ansyar", kelas: "XII TKRO 2", status: "LULUS" },
+"476820": { nisn: "0065328077", nama: "M. Aditya Putra Pratama", kelas: "XII TKRO 2", status: "LULUS" },
+"471209": { nisn: "0069319970", nama: "Muhammad Baihaqi", kelas: "XII TKRO 2", status: "LULUS" },
+"471320": { nisn: "0079829128", nama: "MUHAMMAD FADLI", kelas: "XII TKRO 2", status: "LULUS" },
+"477320": { nisn: "0052883241", nama: "Muhammad Fikri", kelas: "XII TKRO 2", status: "LULUS" },
+"471560": { nisn: "0062636703", nama: "Muhammad Ismail", kelas: "XII TKRO 2", status: "LULUS" },
+"471899": { nisn: "0065191659", nama: "Muhammad Reynaldi", kelas: "XII TKRO 2", status: "LULUS" },
+"471901": { nisn: "0074259580", nama: "Muhammad Reza Aulia Rahman", kelas: "XII TKRO 2", status: "LULUS" },
+"476987": { nisn: "0075387044", nama: "MUHAMMAD RIZKY RADITYA PRATAMA", kelas: "XII TKRO 2", status: "LULUS" },
+"476288": { nisn: "0072642978", nama: "MUHAMMAD ROYAN", kelas: "XII TKRO 2", status: "LULUS" },
+"472144": { nisn: "0073961398", nama: "MUHAMMAD SAIFUL BAHRI", kelas: "XII TKRO 2", status: "LULUS" },
+"472254": { nisn: "0068790793", nama: "MUHAMMAD SHAFRI", kelas: "XII TKRO 2", status: "LULUS" },
+"475467": { nisn: "0069753376", nama: "Rifa Mukhlisin", kelas: "XII TKRO 2", status: "LULUS" },
+"472909": { nisn: "0068241002", nama: "Zaki alfalah", kelas: "XII TKRO 2", status: "LULUS" },
+"473085": { nisn: "0056039190", nama: "Ahmad Nabil Haki", kelas: "XII TP", status: "LULUS" },
+"473132": { nisn: "0073151973", nama: "Ahmad Royan", kelas: "XII TP", status: "LULUS" },
+"473242": { nisn: "0065258129", nama: "Adrian Maulani", kelas: "XII TP", status: "LULUS" },
+"473356": { nisn: "0079042943", nama: "Deff Zidane Alfarizi Widoyono", kelas: "XII TP", status: "LULUS" },
+"473467": { nisn: "0051792030", nama: "EFFENDI WAHYUDI", kelas: "XII TP", status: "LULUS" },
+"473553": { nisn: "0071387800", nama: "Erwinsyah Sony Langden", kelas: "XII TP", status: "LULUS" },
+"473647": { nisn: "0051824875", nama: "GT. M. ALFIANOOR", kelas: "XII TP", status: "LULUS" },
+"473773": { nisn: "0071100444", nama: "Jainal Ilmi Adie", kelas: "XII TP", status: "LULUS" },
+"470909": { nisn: "0064610822", nama: "M. RAFLI RAMADHAN", kelas: "XII TP", status: "LULUS" },
+"474068": { nisn: "0078778578", nama: "Muhammad Arifin", kelas: "XII TP", status: "LULUS" },
+"474114": { nisn: "0079667539", nama: "Muhammad Rakkha", kelas: "XII TP", status: "LULUS" },
+"474257": { nisn: "0063120379", nama: "Muhammad Riski", kelas: "XII TP", status: "LULUS" },
+"474334": { nisn: "0067059807", nama: "NASRULLAH", kelas: "XII TP", status: "LULUS" },
+"497887": { nisn: "0054791838", nama: "Noval Ardhyan Hudha Robany", kelas: "XII TP", status: "LULUS" },
+"474457": { nisn: "0065399788", nama: "Okta Dwi Wijayanto", kelas: "XII TP", status: "LULUS" },
+"474660": { nisn: "0052357059", nama: "Rahmadhani", kelas: "XII TP", status: "LULUS" },
+"474747": { nisn: "0067804561", nama: "Ridho Syahlevi", kelas: "XII TP", status: "LULUS" },
+"474849": { nisn: "0066092676", nama: "TAUFIK RAMADANI", kelas: "XII TP", status: "LULUS" },
+"474930": { nisn: "0076717092", nama: "WAHYU HIDAYATULLAH", kelas: "XII TP", status: "LULUS" }
+    };
+
+    function cariData() {
+      const token = document.getElementById("tokenInput").value.trim();
+      const hasilDiv = document.getElementById("hasil");
+      const notfoundDiv = document.getElementById("notfound");
+
+      if (dataKelulusan[token]) {
+        const siswa = dataKelulusan[token];
+        hasilDiv.style.display = "block";
+        hasilDiv.innerHTML = `
+          <h3>Hasil Kelulusan</h3>
+          <p><strong>NISN:</strong> ${siswa.nisn}</p>
+          <p><strong>Nama:</strong> ${siswa.nama}</p>
+          <p><strong>Kelas:</strong> ${siswa.kelas}</p>
+          <p><strong>Status:</strong> <span style="color:green; font-weight:bold;">${siswa.status}</span></p>
+        `;
+        notfoundDiv.innerHTML = "";
+      } else {
+        hasilDiv.style.display = "none";
+        hasilDiv.innerHTML = "";
+        notfoundDiv.innerHTML = "Maaf, TOKEN tidak ditemukan atau salah.";
+      }
+    }
+  </script>
 </body>
 </html>
