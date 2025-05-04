@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengumuman Kelulusan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pengumuman Kelulusan SMKS YPT Banjarmasin</h1>
+    <h3>Tahun Ajaran 2024/2025</h3>
+    <form id="tokenForm">
+        <label for="token">Masukkan Token:</label><br>
+        <input type="text" id="token" name="token" required>
+        <button type="submit">Lihat Kelulusan</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('tokenForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = document.getElementById('token').value;
+            const response = await fetch(`/api/check-token?token=${token}`);
+            const result = await response.json();
+
+            const resultDiv = document.getElementById('result');
+            if (result.success) {
+                resultDiv.innerHTML = `
+                    <h2>Data Kelulusan</h2>
+                    <p><strong>NISN:</strong> ${result.data.nisn}</p>
+                    <p><strong>Nama:</strong> ${result.data.nama}</p>
+                    <p><strong>Kelas:</strong> ${result.data.kelas}</p>
+                    <p><strong>Status:</strong> ${result.data.status}</p>
+                `;
+            } else {
+                resultDiv.innerHTML = `<p style="color: red;">${result.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
